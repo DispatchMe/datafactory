@@ -1,0 +1,26 @@
+language: node_js
+
+node_js:
+  - 'stable'
+
+# Use container-based Travis infrastructure.
+sudo: false
+
+cache:
+  directories:
+    - node_modules
+
+notifications:
+  email: true
+branches:
+  except:
+    - "/^v\\d+\\.\\d+\\.\\d+$/"
+
+before_install:
+  - npm install -g npm@3.4.0
+
+after_script:
+  - npm run coveralls
+
+# Upload to coveralls, but don't _fail_ if coveralls is down.
+  - cat coverage/lcov.info | node_modules/.bin/coveralls || echo "Coveralls upload failed"
