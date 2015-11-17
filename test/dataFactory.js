@@ -115,9 +115,9 @@ describe('DataFactory', () => {
   });
 
   describe('createGroup', () => {
-    let i = 0;
+    let id = 0;
     const generateId = () => {
-      return i++;
+      return id++;
     }
 
     const testData = new DataFactory({
@@ -135,18 +135,49 @@ describe('DataFactory', () => {
     });
 
     it('should allow chaining', () => {
+      id = 0;
       let group = testData.createGroup().organization().address.hq();
-      console.log('GROUP DATA', group.data);
+      expect(group.data).to.deep.equal({
+        organization: [{
+          _id: 0,
+          name: 'ACME'
+        }],
+        address: [{
+          _id: 1,
+          location: 'HQ',
+          organizationId: 0
+        }]
+      });
     });
 
     it('should pass the group to builder functions', () => {
+      id = 0;
+
       let group = testData.createGroup();
 
-      const organization = group.organization();
-      const address = group.address.hq();
+      group.organization();
+      group.address.hq();
+      group.organization();
+      group.address.hq();
 
-      expect(address.orgazationId).to.equal(organization._id);
-      console.log('GROUP DATA', group.data);
+      expect(group.data).to.deep.equal({
+        organization: [{
+          _id: 0,
+          name: 'ACME'
+        }, {
+          _id: 2,
+          name: 'ACME'
+        }],
+        address: [{
+          _id: 1,
+          location: 'HQ',
+          organizationId: 0
+        }, {
+          _id: 3,
+          location: 'HQ',
+          organizationId: 0
+        }]
+      });
     });
 
   });

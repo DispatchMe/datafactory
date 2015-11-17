@@ -43,40 +43,32 @@ class Group {
 
     self.data = {};
 
-    // // Create a builder function for each factory key
-    // _.forOwn(factory, (defaults, key) => {
+    // Create builder functions
+    _.forOwn(factory._builders, (defaults, key) => {
+      const groupBuilder = (opts) => {
+        const output = buildValue(defaults, opts, self);
 
-    //   const builder = (opts, group) => {
-    //     return buildValue(defaults, opts, group);
-    //   };
-
-    //   // Allow builders to be namespaced via '.'
-    //   // ex. 'addresses.hq' -> factory.addresses.hq();
-    //   if (key.indexOf('.') > -1) {
-    //     parseDotNotation(key, builder, self);
-    //   } else {
-    //     self[key] = builder;
-    //   }
-    // });
-
-    _.forOwn(self._builders, (builder, key) => {
-      // no inception!
-      if (key === 'createGroup') return;
-
-      // add the builder helpers
-      self[key] = (opts) => {
-        // TODO 
-        console.log('builder is', builder);
-
-        const output = builder(opts, self);
+        let dataKey = key;
+        // If there is a namespace (ex. 'address.hq') store the build docs on 'address'
+        if (dataKey.indexOf('.')) {
+          dataKey = key.split('.')[0];
+        }
 
         // track the build doc in the group data
-        const builtDocs = self.data[key] || [];
+        const builtDocs = self.data[dataKey] || [];
         builtDocs.push(output);
-        self.data[key] = builtDocs;
+        self.data[dataKey] = builtDocs;
 
         // Return the group to allow chaining
         return self;
+      }
+
+      // Allow builders to be namespaced via '.'
+      // ex. 'addresses.hq' -> factory.addresses.hq();
+      if (key.indexOf('.') > -1) {
+        parseDotNotation(key, groupBuilder, self);
+      } else {
+        self[key] = groupBuilder;
       }
     });
   }
@@ -87,10 +79,12 @@ export default class DataFactory {
   constructor(builders) {
     const self = this;
 
+    self._builders = builders;
+
     // Create a builder function for each root key
     _.forOwn(builders, (defaults, key) => {
       const builder = (opts, group) => {
-        return buildValue(defaults, opts, group);
+        return buildValue(defaults, opts, null);
       };
 
       // Allow builders to be namespaced via '.'
