@@ -59,8 +59,9 @@ class Group {
         builtDocs.push(output);
         self.data[dataKey] = builtDocs;
 
-        // Return the group to allow chaining
-        return self;
+        // Return the group to allow chaining and
+        // expose the output as the value property.
+        return _.extend({value: output}, self);
       }
 
       // Allow builders to be namespaced via '.'

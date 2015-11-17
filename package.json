@@ -1,6 +1,6 @@
 {
   "name": "datafactory",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A lightweight node package for creating test / demo data and fixtures.",
   "main": "dist/datafactory.js",
   "scripts": {

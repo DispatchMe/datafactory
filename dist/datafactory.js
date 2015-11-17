@@ -152,8 +152,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      builtDocs.push(output);
 	      self.data[dataKey] = builtDocs;
 
-	      // Return the group to allow chaining
-	      return self;
+	      // Return the group to allow chaining and
+	      // expose the output as the value property.
+	      return _lodash2.default.extend({ value: output }, self);
 	    };
 
 	    // Allow builders to be namespaced via '.'

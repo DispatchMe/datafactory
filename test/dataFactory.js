@@ -150,6 +150,19 @@ describe('DataFactory', () => {
       });
     });
 
+    it('should expose the value on the builder result', () => {
+      id = 0;
+      let group = testData.createGroup().organization().address.hq();
+
+      let address = group.value;
+
+      expect(address).to.deep.equal({
+        _id: 1,
+        location: 'HQ',
+        organizationId: 0
+      });
+    });
+
     it('should pass the group to builder functions', () => {
       id = 0;
 

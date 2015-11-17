@@ -11,46 +11,90 @@
 ````
 import DataFactory from 'datafactory';
 
+let _id = 0;
+function generateId() {
+  return _id++;
+}
+
+// Each root key will become a builder function on the factory
 let demoData = new DataFactory({
   organization: {
-    _id: randomId(),
+    _id: generateId,
     name: 'Example organization'
   },
 
   user: {
-    _id: randomId(),
+    _id: generateId,
     name: 'Joe Smith',
-    // Assign the user to the first organization in the group by default
+    // You can use a function to build a property for the document
     organizationId: (group) => {
-      const organizations = group.data.organization;
-      if (organizations) return organization[0]._id;
+      // Assign the user to the first organization in the group by default
+      if (group && group.data.organization) return group.data.organization[0]._id;
     }
   },
 
+  // You can use a function to build the entire document
   tweet: (group) => {
-    const tweet = { _id: randomId(), text: 'Hi!' };
+    const tweet = {
+      _id: generateId(),
+      text: 'Hi!'
+    };
 
     // Assign the tweet to the first user in the group by default
-    if (group.data.user) {
+    if (group && group.data.user) {
       tweet.userId = group.data.user[0]._id;
     }
 
     return tweet;
-  })
+  }
 });
 
-export function generateDemoData() {
-  let group = demoData.createGroup();
-  
-  // Generate an organization, a user for the organization, and a tweet for the user.
-  group.organization().user().tweet({ text: '@Elisabeth cool demo data!' });
+// Generate an organization, a user for the organization, and a tweet for the user -- you can chain calls.
+let group = demoData.createGroup().organization().user().tweet({
+  text: 'Joe: cool demo data!'
+});
 
-  // Create another user and a tweet for them
-  let elisabeth = group.user({ name: 'Elisabeth' });
-  group.tweet({ userId: elisabeth._id, text: '@Joe Thanks!' });
+// Create another user and a tweet for them
+let elisabeth = group.user({
+  name: 'Elisabeth'
+}).value;
 
-  console.log('Generated documents', group.data);
-}
+group.tweet({
+  userId: elisabeth._id,
+  text: 'Elisabeth: Thanks!'
+});
+
+console.log('Generated documents\n\n', group.data);
+````
+
+**console output**
+````json
+Generated documents
+
+{
+  organization: [{
+    _id: 0,
+    name: 'Example organization'
+  }],
+  user: [{
+    _id: 1,
+    name: 'Joe Smith',
+    organizationId: 0
+  }, {
+    _id: 3,
+    name: 'Elisabeth',
+    organizationId: 0
+  }],
+  tweet: [{
+    _id: 2,
+    text: 'Joe: cool demo data!',
+    userId: 1
+  }, {
+    _id: 4,
+    text: 'Elisabeth: Thanks!',
+    userId: 3
+  }]
+};
 ````
 
 ## Contributing
