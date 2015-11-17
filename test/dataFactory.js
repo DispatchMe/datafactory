@@ -115,9 +115,38 @@ describe('DataFactory', () => {
   });
 
   describe('createGroup', () => {
+    let i = 0;
+    const generateId = () => {
+      return i++;
+    }
 
-    it('should do things', () => {
-      throw new Error('Not Implemented');
+    const testData = new DataFactory({
+      organization: {
+        _id: generateId,
+        name: 'ACME'
+      },
+      'address.hq': {
+        _id: generateId,
+        location: 'HQ',
+        organizationId: (group) => {
+          if (group && group.data.organization) return group.data.organization[0]._id;
+        }
+      }
+    });
+
+    it('should allow chaining', () => {
+      let group = testData.createGroup().organization().address.hq();
+      console.log('GROUP DATA', group.data);
+    });
+
+    it('should pass the group to builder functions', () => {
+      let group = testData.createGroup();
+
+      const organization = group.organization();
+      const address = group.address.hq();
+
+      expect(address.orgazationId).to.equal(organization._id);
+      console.log('GROUP DATA', group.data);
     });
 
   });

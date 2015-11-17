@@ -37,15 +37,59 @@ function buildValue(defaults, opts, group) {
   return _.extend(output, opts);
 }
 
+class Group {
+  constructor(factory) {
+    const self = this;
+
+    self.data = {};
+
+    // // Create a builder function for each factory key
+    // _.forOwn(factory, (defaults, key) => {
+
+    //   const builder = (opts, group) => {
+    //     return buildValue(defaults, opts, group);
+    //   };
+
+    //   // Allow builders to be namespaced via '.'
+    //   // ex. 'addresses.hq' -> factory.addresses.hq();
+    //   if (key.indexOf('.') > -1) {
+    //     parseDotNotation(key, builder, self);
+    //   } else {
+    //     self[key] = builder;
+    //   }
+    // });
+
+    _.forOwn(self._builders, (builder, key) => {
+      // no inception!
+      if (key === 'createGroup') return;
+
+      // add the builder helpers
+      self[key] = (opts) => {
+        // TODO 
+        console.log('builder is', builder);
+
+        const output = builder(opts, self);
+
+        // track the build doc in the group data
+        const builtDocs = self.data[key] || [];
+        builtDocs.push(output);
+        self.data[key] = builtDocs;
+
+        // Return the group to allow chaining
+        return self;
+      }
+    });
+  }
+
+}
+
 export default class DataFactory {
   constructor(builders) {
     const self = this;
 
     // Create a builder function for each root key
     _.forOwn(builders, (defaults, key) => {
-      const builder = (opts) => {
-        // TODO
-        const group = {};
+      const builder = (opts, group) => {
         return buildValue(defaults, opts, group);
       };
 
@@ -57,5 +101,9 @@ export default class DataFactory {
         self[key] = builder;
       }
     });
+  }
+
+  createGroup() {
+    return new Group(this);
   }
 }
