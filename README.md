@@ -1,6 +1,10 @@
 # datafactory
 
-A lightweight node package for creating test data, demo data and fixtures.
+[![Travis Status][trav_img]][trav_site]
+[![devDependency Status](https://david-dm.org/dispatchme/datafactory/dev-status.svg)](https://david-dm.org/dispatchme/datafactory)
+[![Dependency Status](https://david-dm.org/dispatchme/datafactory.svg)](https://david-dm.org/dispatchme/datafactory)
+
+> A lightweight node package for creating test data, demo data and fixtures.
 
 # Example Usage
 
@@ -86,3 +90,7 @@ Thank you [@kflash](https://github.com/Kflash) for [trolly](https://github.com/K
 
 ## License
 MIT © [Dispatch](https://github.com/dispatchme)
+
+[trav_img]: https://api.travis-ci.org/DispatchMe/datafactory.svg
+[trav_site]: https://travis-ci.org/DispatchMe/datafactory
+

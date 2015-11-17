@@ -4,7 +4,7 @@ describe('DataFactory', () => {
 
   describe('constructor', () => {
 
-    it('should generate named builder functions', () => {
+    it('should generate builder functions for each root key', () => {
       const testData = new DataFactory({
         organization: {
           name: 'Example organization'
@@ -116,8 +116,8 @@ describe('DataFactory', () => {
 
   describe('createGroup', () => {
 
-    it('should generate data', () => {
-
+    it('should do things', () => {
+      throw new Error('Not Implemented');
     });
 
   });
