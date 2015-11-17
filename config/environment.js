@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import dotenv   from 'dotenv';
+import dotenv from 'dotenv';
 
 // create a empty object 
 let config = {};
@@ -12,15 +12,13 @@ dotenv.load();
 
 config.env = process.env.NODE_ENV;
 config.globals = {
-
-  'process.env'  : {
-    'NODE_ENV' : config.env
+  'process.env': {
+    'NODE_ENV': config.env
   },
-  'NODE_ENV'     : config.env,
-  '__DEV__'      : config.env === 'development',
-  '__PROD__'     : config.env === 'production',
-	
-	};
+  'NODE_ENV': config.env,
+  '__DEV__': config.env === 'development',
+  '__PROD__': config.env === 'production',
+};
 
 export default config;
 
