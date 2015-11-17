@@ -1,18 +1,20 @@
 # datafactory
 
-A lightweight node package for creating test / demo data and fixtures.
+A lightweight node package for creating test data, demo data and fixtures.
 
 # Example Usage
 
 ````
+import DataFactory from 'datafactory';
+
 let demoData = new DataFactory({
   organization: {
-    _id: Random.id,
+    _id: randomId(),
     name: 'Example organization'
   },
 
   user: {
-    _id: Random.id,
+    _id: randomId(),
     name: 'Joe Smith',
     // Assign the user to the first organization in the group by default
     organizationId: (group) => {
@@ -22,7 +24,7 @@ let demoData = new DataFactory({
   },
 
   tweet: (group) => {
-    const tweet = { _id: Random.id(), text: 'Hi!' };
+    const tweet = { _id: randomId(), text: 'Hi!' };
 
     // Assign the tweet to the first user in the group by default
     if (group.data.user) {
@@ -33,11 +35,10 @@ let demoData = new DataFactory({
   })
 });
 
-export function createDemoData() {
+export function generateDemoData() {
   let group = demoData.createGroup();
   
-  // Create an organization, a user for the organization, 
-  // and a tweet for the user.
+  // Generate an organization, a user for the organization, and a tweet for the user.
   group.organization().user().tweet({ text: '@Elisabeth cool demo data!' });
 
   // Create another user and a tweet for them
@@ -81,7 +82,7 @@ npm install
 
 ## Contributors
 
-Thank you [Kflash](https://github.com/Kflash) for [trolly](https://github.com/Kflash/trolly) the skeleton this was built off of.
+Thank you [@kflash](https://github.com/Kflash) for [trolly](https://github.com/Kflash/trolly) the skeleton this project was started with.
 
 ## License
 MIT © [Dispatch](https://github.com/dispatchme)

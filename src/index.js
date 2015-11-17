@@ -1,4 +1,4 @@
-import fooBar from './fooBar';
+import DataFactory from './DataFactory';
 
 /**
 * Migrating from Babel >= 5.x to Babel >= 6.x, will most likely break your code
@@ -7,11 +7,4 @@ import fooBar from './fooBar';
 As a workaround, replace export default { … } with module.exports = { … }
 */
 
-const trolly = {
-  fooBar,
-  example() {
-    return 'hello';
-  }
-};
-
-module.exports = trolly;
+module.exports = DataFactory;
