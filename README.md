@@ -68,7 +68,7 @@ console.log('Generated documents\n\n', group.data);
 ````
 
 **console output**
-````json
+````js
 Generated documents
 
 {
