@@ -1,12 +1,12 @@
 {
   "name": "datafactory",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "A lightweight node package for creating test / demo data and fixtures.",
+  "main": "dist/datafactory.js",
   "scripts": {
-    "precommit": "npm test && npm run build",
     "clean": "rimraf dist",
     "production": "npm run clean && set NODE_ENV=production && webpack --config ./config/webpack/webpack.production.config.js --progress --profile --colors",
-    "test": "npm run test:server && npm run test:browser",
+    "test": "npm run test:server",
     "test:server": "mocha --opts config/mocha.opts",
     "watch:server": "npm run test:server -- --watch",
     "eslint:source": "eslint ./src/**/*.js",

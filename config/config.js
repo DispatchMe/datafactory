@@ -3,7 +3,6 @@ const _root = __dirname + '../../';
 module.exports = {
   // path helpers 
   _app: 'datafactory',
-  minified: 'datafactory.min.js',
   dev: 'datafactory.js',
   eslintDir: _root + '.eslintrc',
   distDir: _root + 'dist',

@@ -17,10 +17,11 @@ module.exports = {
   build: true,
   output: {
     path: config.distDir,
-    filename: config._app + '.min.js',
+    filename: config._app + '.js',
     libraryTarget: 'umd',
     library: console._app
   },
+  externals: ['lodash'],
   module: {
     loaders: [{
       test: /\.js$/,
@@ -40,24 +41,13 @@ module.exports = {
   plugins: [
     // Notifier
     new WebpackNotifierPlugin({
-      title: 'Trolly',
+      title: 'datafactory',
       alwaysNotify: true
     }),
     // optimizations
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      output: {
-        comments: false
-      },
-      compress: {
-        'unused': true,
-        'dead_code': true,
-        warnings: false,
-        screw_ie8: true
-      }
-    }),
     new webpack.DefinePlugin({
       '__DEV__': false,
       'process.env.NODE_ENV': JSON.stringify('production'),
