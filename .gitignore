@@ -1,6 +1,6 @@
 *.log
-node_modules
-coverage
-npm-debug.log
-.DS_Store
 .build
+.DS_Store
+dist
+node_modules
+npm-debug.log

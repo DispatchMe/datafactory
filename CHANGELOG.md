@@ -1,5 +1,9 @@
 # Changelog
 
-## 0.0.1
+## vNext
 
-- TBD
+- Simplify project structure
+
+## 0.0.3
+
+- First stable release
