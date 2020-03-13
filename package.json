@@ -1,6 +1,6 @@
 {
   "name": "datafactory",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A lightweight node package for creating test / demo data and fixtures.",
   "repository": {
     "type": "git",
