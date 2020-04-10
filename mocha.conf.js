@@ -1,3 +1,3 @@
-require('babel-core/register');
+require('@babel/register');
 
 global.expect = require('expect');
